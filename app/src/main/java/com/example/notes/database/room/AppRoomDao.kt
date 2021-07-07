@@ -9,7 +9,6 @@ interface AppRoomDao {
     @Query("SELECT * FROM notes_table")
     fun getAllNotes(): LiveData<List<AppNote>>
 
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(note: AppNote)
 

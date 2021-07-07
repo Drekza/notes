@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="cardElevation">10dp</dimen>
     <dimen name="cardCornerRadius">10dp</dimen>
-    <dimen name="item_note_name">20sp</dimen>
+    <dimen name="app_large_text">20sp</dimen>
     <dimen name="app_margin">16dp</dimen>
-    <dimen name="item_note_text">16sp</dimen>
+    <dimen name="app_normal_text">16sp</dimen>
 </resources>

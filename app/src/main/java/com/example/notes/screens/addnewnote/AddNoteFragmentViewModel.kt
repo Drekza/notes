@@ -7,12 +7,14 @@ import com.example.notes.model.AppNote
 import com.example.notes.utils.REPOSITORY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddNoteFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
     fun insert(note: AppNote, onSuccess: () -> Unit){
         viewModelScope.launch(Dispatchers.IO){
-            REPOSITORY.insert(note){
+            REPOSITORY.insert(note)
+            withContext(Dispatchers.Main){
                 onSuccess()
             }
         }

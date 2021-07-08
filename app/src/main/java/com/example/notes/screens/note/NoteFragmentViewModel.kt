@@ -13,7 +13,7 @@ class NoteFragmentViewModel(application: Application) : AndroidViewModel(applica
 
     fun deleteNote(note: AppNote, onSuccess: () -> Unit){
         viewModelScope.launch(Dispatchers.IO) {
-            REPOSITORY.delete(note)
+            REPOSITORY.delete(note){}
             withContext(Dispatchers.Main){
                 onSuccess()
             }

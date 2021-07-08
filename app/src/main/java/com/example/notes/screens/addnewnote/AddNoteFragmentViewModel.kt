@@ -13,7 +13,7 @@ class AddNoteFragmentViewModel(application: Application) : AndroidViewModel(appl
 
     fun insert(note: AppNote, onSuccess: () -> Unit){
         viewModelScope.launch(Dispatchers.IO){
-            REPOSITORY.insert(note)
+            REPOSITORY.insert(note){}
             withContext(Dispatchers.Main){
                 onSuccess()
             }

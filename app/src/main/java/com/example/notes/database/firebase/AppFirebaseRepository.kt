@@ -11,8 +11,7 @@ class AppFirebaseRepository : DatabaseRepository {
     private val auth = FirebaseAuth.getInstance()
 
 
-    override val allNotes: LiveData<List<AppNote>>
-        get() = TODO("Not yet implemented")
+    override val allNotes: LiveData<List<AppNote>> = AllNotesLiveData()
 
     override suspend fun insert(note: AppNote) {
         TODO("Not yet implemented")

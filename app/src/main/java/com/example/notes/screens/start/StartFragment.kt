@@ -53,7 +53,7 @@ class StartFragment : Fragment() {
                     EMAIL = inputEmail
                     PASSWORD = inputPassword
                     startFragmentViewModel.initDatabase(TYPE_FIREBASE){
-                        
+                        APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_notesFragment)
                     }
 
                 } else {

@@ -8,19 +8,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class AppFirebaseRepository : DatabaseRepository {
-    private val auth = FirebaseAuth.getInstance()
-    private val dbReference = FirebaseDatabase.getInstance().reference.child(auth.currentUser?.uid.toString())
-
     override val allNotes: LiveData<List<AppNote>> = AllNotesLiveData()
 
+    init{
+        AUTH = FirebaseAuth.getInstance()
+    }
+
     override suspend fun insert(note: AppNote, onSuccess: () -> Unit) {
-        val noteId = dbReference.push().key.toString()
+        val noteId = DB_REFERENCE.push().key.toString()
         val noteMap = hashMapOf<String, Any>()
         noteMap[FIREBASE_ID] = noteId
         noteMap[NOTE_NAME] = note.name
         noteMap[NOTE_TEXT] = note.text
 
-        dbReference.child(noteId)
+        DB_REFERENCE.child(noteId)
             .updateChildren(noteMap)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener{
@@ -30,7 +31,7 @@ class AppFirebaseRepository : DatabaseRepository {
     }
 
     override suspend fun delete(note: AppNote, onSuccess: () -> Unit) {
-        dbReference.child(note.firebaseId).removeValue()
+        DB_REFERENCE.child(note.firebaseId).removeValue()
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener{
                 showToast(it.message.toString())
@@ -38,10 +39,10 @@ class AppFirebaseRepository : DatabaseRepository {
     }
 
     override fun connectToFirebaseDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit) {
-        auth.signInWithEmailAndPassword(EMAIL, PASSWORD)
+        AUTH.signInWithEmailAndPassword(EMAIL, PASSWORD)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener {
-                auth.createUserWithEmailAndPassword(EMAIL, PASSWORD)
+                AUTH.createUserWithEmailAndPassword(EMAIL, PASSWORD)
                     .addOnSuccessListener { onSuccess() }
                     .addOnFailureListener{
                         onFail(it.message.toString())
@@ -50,6 +51,6 @@ class AppFirebaseRepository : DatabaseRepository {
     }
 
     override fun signOutFirebase() {
-        auth.signOut()
+        AUTH.signOut()
     }
 }

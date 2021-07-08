@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.notes.R
 import com.example.notes.databinding.FragmentStartBinding
 import com.example.notes.utils.*
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_start.*
 
 
@@ -53,6 +54,9 @@ class StartFragment : Fragment() {
                     EMAIL = inputEmail
                     PASSWORD = inputPassword
                     startFragmentViewModel.initDatabase(TYPE_FIREBASE){
+                        CURRENT_ID = AUTH.currentUser?.uid.toString()
+                        showToast(CURRENT_ID)
+                        DB_REFERENCE = FirebaseDatabase.getInstance().reference.child(CURRENT_ID)
                         APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_notesFragment)
                     }
 

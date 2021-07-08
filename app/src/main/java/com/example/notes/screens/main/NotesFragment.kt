@@ -1,10 +1,8 @@
 package com.example.notes.screens.main
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +13,8 @@ import com.example.notes.databinding.FragmentNotesBinding
 import com.example.notes.databinding.FragmentStartBinding
 import com.example.notes.model.AppNote
 import com.example.notes.utils.APP_ACTIVITY
+import com.example.notes.utils.REPOSITORY
+import com.example.notes.utils.showToast
 import kotlinx.android.synthetic.main.fragment_notes.*
 
 
@@ -44,6 +44,7 @@ class NotesFragment : Fragment() {
     }
 
     private fun initialization() {
+        setHasOptionsMenu(true)
         notesFragmentViewModel = ViewModelProvider(this).get(NotesFragmentViewModel::class.java)
 
         adapter = NotesAdapter()
@@ -77,4 +78,20 @@ class NotesFragment : Fragment() {
             APP_ACTIVITY.navController.navigate(R.id.action_notesFragment_to_noteFragment, bundle)
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.exit_action_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.btnExit -> {
+                notesFragmentViewModel.signOut()
+                APP_ACTIVITY.navController.navigate(R.id.action_notesFragment_to_startFragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
 }

@@ -17,4 +17,8 @@ class AppRoomRepository(private val appRoomDao: AppRoomDao) : DatabaseRepository
     override suspend fun delete(note: AppNote, onSuccess: () -> Unit) {
         appRoomDao.delete(note)
     }
+
+    override fun signOutFirebase() {
+        super.signOutFirebase()
+    }
 }

@@ -8,4 +8,8 @@ interface DatabaseRepository {
 
     suspend fun insert(note: AppNote)
     suspend fun delete(note: AppNote)
+
+    fun connectToFirebaseDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit){}
+
+    fun signOutFirebase(){}
 }

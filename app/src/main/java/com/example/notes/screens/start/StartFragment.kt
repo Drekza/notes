@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.notes.R
 import com.example.notes.databinding.FragmentStartBinding
-import com.example.notes.utils.APP_ACTIVITY
-import com.example.notes.utils.TYPE_ROOM
+import com.example.notes.utils.*
 import kotlinx.android.synthetic.main.fragment_start.*
 
 
@@ -36,9 +35,30 @@ class StartFragment : Fragment() {
 
     private fun initialization() {
         startFragmentViewModel = ViewModelProvider(this).get(StartFragmentViewModel::class.java)
-        btn_room.setOnClickListener {
+        binding.btnRoom.setOnClickListener {
             startFragmentViewModel.initDatabase(TYPE_ROOM){
                 APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_notesFragment)
+            }
+        }
+        binding.btnFirebase.setOnClickListener {
+            binding.inputEmail.visibility = View.VISIBLE
+            binding.inputPassword.visibility = View.VISIBLE
+            binding.btnFirebaseLogin.visibility = View.VISIBLE
+
+            binding.btnFirebaseLogin.setOnClickListener {
+                val inputEmail = binding.inputEmail.text.toString()
+                val inputPassword = binding.inputPassword.text.toString()
+
+                if(inputEmail.isNotEmpty() && inputPassword.isNotEmpty()){
+                    EMAIL = inputEmail
+                    PASSWORD = inputPassword
+                    startFragmentViewModel.initDatabase(TYPE_FIREBASE){
+                        
+                    }
+
+                } else {
+                    showToast(getString(R.string.toast_fill_text))
+                }
             }
         }
     }

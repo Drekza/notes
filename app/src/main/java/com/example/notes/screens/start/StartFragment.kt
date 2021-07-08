@@ -31,13 +31,22 @@ class StartFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        initialization()
+        startFragmentViewModel = ViewModelProvider(this).get(StartFragmentViewModel::class.java)
+        if(AppPreference.getInitUser()){
+            startFragmentViewModel.initDatabase(AppPreference.getDbType()){
+                APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_notesFragment)
+            }
+        } else {
+            initialization()
+        }
+
     }
 
     private fun initialization() {
-        startFragmentViewModel = ViewModelProvider(this).get(StartFragmentViewModel::class.java)
         binding.btnRoom.setOnClickListener {
-            startFragmentViewModel.initDatabase(TYPE_ROOM){
+            startFragmentViewModel.initDatabase(AppPreference.getDbType()){
+                AppPreference.setInitUser(true)
+                AppPreference.setDbType(TYPE_ROOM)
                 APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_notesFragment)
             }
         }
@@ -54,9 +63,8 @@ class StartFragment : Fragment() {
                     EMAIL = inputEmail
                     PASSWORD = inputPassword
                     startFragmentViewModel.initDatabase(TYPE_FIREBASE){
-                        CURRENT_ID = AUTH.currentUser?.uid.toString()
-                        showToast(CURRENT_ID)
-                        DB_REFERENCE = FirebaseDatabase.getInstance().reference.child(CURRENT_ID)
+                        AppPreference.setInitUser(true)
+                        AppPreference.setDbType(TYPE_FIREBASE)
                         APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_notesFragment)
                     }
 

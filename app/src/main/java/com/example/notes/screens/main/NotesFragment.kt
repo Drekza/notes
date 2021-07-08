@@ -13,6 +13,7 @@ import com.example.notes.databinding.FragmentNotesBinding
 import com.example.notes.databinding.FragmentStartBinding
 import com.example.notes.model.AppNote
 import com.example.notes.utils.APP_ACTIVITY
+import com.example.notes.utils.AppPreference
 import com.example.notes.utils.REPOSITORY
 import com.example.notes.utils.showToast
 import kotlinx.android.synthetic.main.fragment_notes.*
@@ -86,6 +87,7 @@ class NotesFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.btnExit -> {
+                AppPreference.setInitUser(false)
                 notesFragmentViewModel.signOut()
                 APP_ACTIVITY.navController.navigate(R.id.action_notesFragment_to_startFragment)
             }

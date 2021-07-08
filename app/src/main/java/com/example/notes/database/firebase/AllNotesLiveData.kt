@@ -25,12 +25,12 @@ class AllNotesLiveData : LiveData<List<AppNote>>() {
     }
 
     override fun onActive() {
-        dbReference.removeEventListener(listener)
+        dbReference.addValueEventListener(listener)
         super.onActive()
     }
 
     override fun onInactive() {
-        dbReference.addValueEventListener(listener)
+        dbReference.removeEventListener(listener)
         super.onInactive()
     }
 }

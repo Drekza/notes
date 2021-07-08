@@ -30,7 +30,11 @@ class AppFirebaseRepository : DatabaseRepository {
     }
 
     override suspend fun delete(note: AppNote, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        dbReference.child(note.firebaseId).removeValue()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener{
+                showToast(it.message.toString())
+            }
     }
 
     override fun connectToFirebaseDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit) {

@@ -69,4 +69,12 @@ class NotesFragment : Fragment() {
         notesFragmentViewModel.allNotes.removeObserver(listObserver)
         recyclerView.adapter = null
     }
+
+    companion object{
+        fun onNoteClicked(note: AppNote){
+            val bundle = Bundle()
+            bundle.putSerializable("Note", note)
+            APP_ACTIVITY.navController.navigate(R.id.action_notesFragment_to_noteFragment, bundle)
+        }
+    }
 }

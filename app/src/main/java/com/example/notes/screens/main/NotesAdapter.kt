@@ -35,4 +35,15 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesHolder>() {
         notesList = list
         notifyDataSetChanged()
     }
+
+    override fun onViewAttachedToWindow(holder: NotesHolder) {
+        holder.itemView.setOnClickListener {
+            NotesFragment.onNoteClicked(notesList[holder.adapterPosition])
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: NotesHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.setOnClickListener(null)
+    }
 }

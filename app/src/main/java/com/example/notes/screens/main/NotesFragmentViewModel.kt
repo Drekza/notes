@@ -6,6 +6,4 @@ import com.example.notes.utils.REPOSITORY
 
 class NotesFragmentViewModel(application: Application) : AndroidViewModel(application) {
     val allNotes = REPOSITORY.allNotes
-
-
 }
